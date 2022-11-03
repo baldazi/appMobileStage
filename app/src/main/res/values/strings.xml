@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Stage</string>
+    <string name="offre">Offres</string>
+    <string name="company">Entreprises</string>
+    <string name="folder">Activités</string>
+    <string name="user">Compte</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello offre</string>
+    <string name="hello_folder">Hello folder</string>
+    <string name="forget_password">Mot de passe oublié ?</string>
+</resources>
