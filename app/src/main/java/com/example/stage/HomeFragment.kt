@@ -91,7 +91,8 @@ class HomeFragment : Fragment() {
                     val jObject = jsonArray.getJSONObject(i)
                     val itemTitle = jObject.getString("title")
                     val itemLocation = jObject.getString("location")
-                    val annonce = Annonce(itemTitle, itemLocation)
+                    val itemCompany = jObject.getJSONObject("company").getString("name").toString()
+                    val annonce = Annonce(itemTitle, itemLocation, itemCompany)
                     newAnnonceList.add(annonce)
                     //Log.e("array", jObject.toString())
                 }

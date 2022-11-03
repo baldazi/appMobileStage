@@ -22,6 +22,7 @@ class AnnonceAdapter(private val newAnnonce: ArrayList<Annonce>) :
         val currentItem = newAnnonce[position]
         holder.title.text = currentItem.title
         holder.location.text = currentItem.location
+        holder.company.text = currentItem.company
     }
 
     override fun getItemCount(): Int {
@@ -32,5 +33,6 @@ class AnnonceAdapter(private val newAnnonce: ArrayList<Annonce>) :
     {
         val title : TextView = itemView.findViewById(R.id.annonce_title)
         val location : TextView = itemView.findViewById(R.id.annonce_location)
+        val company : TextView = itemView.findViewById(R.id.annonce_company)
     }
 }
