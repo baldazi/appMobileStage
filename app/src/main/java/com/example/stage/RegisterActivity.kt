@@ -30,7 +30,7 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var  pwdEdt:EditText
     lateinit var  pwConfEdt:EditText
     lateinit var sharedPreferences: SharedPreferences
-    val url = "https://obscure-sierra-87499.herokuapp.com/user/new/"
+    val url = "https://obscure-sierra-87499.herokuapp.com/user/new"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -75,41 +75,26 @@ class RegisterActivity : AppCompatActivity() {
         val queue = Volley.newRequestQueue(this@RegisterActivity)
         val request: StringRequest =
             object : StringRequest(Request.Method.POST, url, Response.Listener { response ->
-                // on below line we are displaying a toast message as data updated.
                 Log.e("TAG", "response: $response")
-                Toast.makeText(this@RegisterActivity, "connexion..", Toast.LENGTH_SHORT).show()
-                try {
-                        val editor: SharedPreferences.Editor = sharedPreferences.edit()
-                        editor.putString("email", email)
-                        editor.putString("firstname", fsName)
-                        editor.putString("lastname", lsName)
-                        editor.putInt("id", 15)
-                        editor.putInt("level", 0)
-                        editor.putString("born", born)
-                        editor.putString("school", "")
-                        //TODO
-                        editor.apply()
-                        //TODO
-                    Toast.makeText(this, "Merci de nous avoir rejoint", Toast.LENGTH_SHORT).show()
-                        val i = Intent(this@RegisterActivity, MainActivityLogin::class.java)
-                        startActivity(i)
-                        finish()
-
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
-            }, Response.ErrorListener { error -> // displaying toast message on response failure.
-                Log.e("tag", "deja utilisateur" + error.toString())
+                Toast.makeText(this@RegisterActivity, "compte crée avec succès", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this@RegisterActivity,MainActivity::class.java))
+            }, Response.ErrorListener { error ->
+                Log.e("tag", "deja utilisateur $error")
+                error.printStackTrace()
                 Toast.makeText(this@RegisterActivity, "paramettres invalides", Toast.LENGTH_SHORT).show()
             }) {
                 override fun getBodyContentType(): String {
                     return "application/json"
                 }
-
                 @Throws(AuthFailureError::class)
                 override fun getBody(): ByteArray {
-                    val params =  "firstname=$fsName&lastname=$lsName&born=$born&email=$email&password=$pwd"
-                    return params.toByteArray()
+                    val params = HashMap<String, String>()
+                    params.put("lastname",lsName)
+                    params.put("firstname",fsName)
+                    params.put("birthday", born)
+                    params.put("email", email)
+                    params.put("password", pwd)
+                    return JSONObject(params as Map<*, *>?).toString().toByteArray()
                 }
 
             }
