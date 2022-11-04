@@ -1,12 +1,15 @@
 package com.example.stage
 
 import adapter.AnnonceAdapter
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
@@ -14,7 +17,9 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import data.Annonce
+import listener.OnAnnonceClickListener
 import org.json.JSONArray
+import java.text.FieldPosition
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,7 +37,7 @@ lateinit var title : ArrayList<String>
  * Use the [HomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), OnAnnonceClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -79,6 +84,7 @@ class HomeFragment : Fragment() {
         dataInitialize(view)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun dataInitialize(view: View){
         newAnnonceList =  arrayListOf()
         val queue: RequestQueue = Volley.newRequestQueue(activity)
@@ -92,7 +98,10 @@ class HomeFragment : Fragment() {
                     val itemTitle = jObject.getString("title")
                     val itemLocation = jObject.getString("location")
                     val itemCompany = jObject.getJSONObject("company").getString("name").toString()
-                    val annonce = Annonce(itemTitle, itemLocation, itemCompany)
+                    val itemDescription = jObject.getString("description")
+                    val itemDuration = jObject.getInt("duration")
+                    val itemDate = jObject.getString("start_date")
+                    val annonce = Annonce(itemTitle, itemLocation, itemCompany, itemDescription, itemDuration, itemDate)
                     newAnnonceList.add(annonce)
                     //Log.e("array", jObject.toString())
                 }
@@ -101,9 +110,20 @@ class HomeFragment : Fragment() {
                 recyclerView = view.findViewById(R.id.home_item_list)
                 recyclerView.layoutManager = layoutManager
                 recyclerView.setHasFixedSize(true)
-                annonceAdapter = AnnonceAdapter(newAnnonceList)
+                annonceAdapter = AnnonceAdapter(newAnnonceList, this)
                 recyclerView.adapter = annonceAdapter
+                annonceAdapter.notifyDataSetChanged()
+
             }, {err-> Log.e("er", err.toString()) })
         queue.add(req)
     }
+
+    override fun onAnnonceClicked(position: Int) {
+        val intent = Intent(activity, AnnonceActivity::class.java)
+        intent.putExtra("title", newAnnonceList[position].title)
+        intent.putExtra("description", newAnnonceList[position].description)
+        this.startActivity(intent)
+
+    }
+
 }

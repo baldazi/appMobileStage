@@ -22,4 +22,11 @@
         <item name="cornerSizeBottomRight">30%</item>
         <item name="cornerSizeBottomLeft">30%</item>
     </style>
+
+    <style name="rounded_200">
+        <item name="cornerSizeTopLeft">60%</item>
+        <item name="cornerSizeTopRight">60%</item>
+        <item name="cornerSizeBottomRight">60%</item>
+        <item name="cornerSizeBottomLeft">60%</item>
+    </style>
 </resources>
