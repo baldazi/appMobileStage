@@ -3,6 +3,7 @@ package com.example.stage
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -10,6 +11,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.AuthFailureError
 import com.android.volley.Request
@@ -22,6 +24,7 @@ import com.example.stage.R
 import data.User
 import org.json.JSONException
 import org.json.JSONObject
+import java.time.LocalDate
 
 class MainActivity : AppCompatActivity() {
     lateinit var emailEdt: EditText
@@ -72,6 +75,7 @@ class MainActivity : AppCompatActivity() {
     private fun loginUser(userEmail: String, password: String) {
         val queue = Volley.newRequestQueue(this@MainActivity)
         val request: StringRequest =
+            @RequiresApi(Build.VERSION_CODES.O)
             object : StringRequest(Request.Method.POST, url, Response.Listener { response ->
                     // on below line we are displaying a toast message as data updated.
                     Log.e("TAG", "response: $response")
@@ -98,6 +102,8 @@ class MainActivity : AppCompatActivity() {
                             editor.putInt("id", user.id)
                             editor.putInt("level", user.level)
                             editor.putString("school", user.school)
+                            val bdate = LocalDate.parse(user.born.substring(0,10))
+                            editor.putString("born", bdate.dayOfMonth.toString()+"/"+bdate.monthValue+"/"+bdate.year)
                             //TODO
                             editor.apply()
                             //TODO

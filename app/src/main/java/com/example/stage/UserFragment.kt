@@ -75,14 +75,14 @@ class UserFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.e("ddkk","ok")
-        view?.findViewById<TextView>(R.id.us_firstname).text = sharedPreferences.getString("firstname", "").toString()
-        view?.findViewById<TextView>(R.id.us_lastname).text = sharedPreferences.getString("lastname", "").toString()
-        view?.findViewById<TextView>(R.id.us_email).text = sharedPreferences.getString("email", "").toString()
-        view?.findViewById<TextView>(R.id.us_school).text = sharedPreferences.getString("school", "").toString()
+        //Log.e("user",sharedPreferences.getString("born", "").toString())
+        view.findViewById<TextView>(R.id.us_firstname).text = sharedPreferences.getString("firstname", "")
+        view.findViewById<TextView>(R.id.us_lastname).text = sharedPreferences.getString("lastname", "")
+        view.findViewById<TextView>(R.id.us_email).text = sharedPreferences.getString("email", "")
+        view.findViewById<TextView>(R.id.us_school).text = sharedPreferences.getString("school", "")
         //view?.findViewById<TextView>(R.id.us_level).text = sharedPreferences.getInt("level", 0).toString()
-        //view?.findViewById<TextView>(R.id.us_firstname).text = sharedPreferences.getString("firstname", "").toString()
-        view?.findViewById<Button>(R.id.idBtnLogOut)?.setOnClickListener {
+        view.findViewById<TextView>(R.id.us_born).text = sharedPreferences.getString("born", "")
+        view.findViewById<Button>(R.id.idBtnLogOut)?.setOnClickListener {
 
             // on below line we are creating a variable for
             // editor of shared preferences and initializing it.

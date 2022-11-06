@@ -16,7 +16,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="45dp"
         android:background="@drawable/user_card"
         android:elevation="4dp"
         android:padding="7dp">
@@ -150,6 +150,19 @@
 
 
     </RelativeLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/id_edit"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="440dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/black"
+        android:padding="5dp"
+        android:text="Modifier"
+        android:textColor="@color/white"
+        app:shapeAppearanceOverlay="@style/rounded" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/idBtnLogOut"

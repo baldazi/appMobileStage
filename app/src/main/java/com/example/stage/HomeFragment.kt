@@ -42,7 +42,7 @@ class HomeFragment : Fragment(), OnAnnonceClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private val url = "https://obscure-sierra-87499.herokuapp.com/"
+    private val url = "https://obscure-sierra-87499.herokuapp.com/1"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

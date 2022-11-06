@@ -1,8 +1,10 @@
 package com.example.stage
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -37,6 +39,23 @@ class AnnonceActivity : AppCompatActivity() {
 
         backBtn.setOnClickListener{
             startActivity(Intent(this, MainActivityLogin::class.java))
+        }
+
+        subBtn.setOnClickListener {
+            val intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                data = Uri.parse("mailto:")
+                type = "text/plain"
+                putExtra(Intent.EXTRA_EMAIL, "recipient@email.com")
+                putExtra(Intent.EXTRA_SUBJECT, "Subject of Email")
+                putExtra(Intent.EXTRA_TEXT, "content of Email")
+            }
+            if (intent.resolveActivity(this!!.packageManager) != null) {
+                //intent.setPackage("com.google.android.gm")
+                startActivity(intent)
+            } else {
+                Log.d("TAG", "No app available to send email.")
+            }
         }
     }
 }
