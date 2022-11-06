@@ -12,7 +12,7 @@
     android:foreground="@color/black_400"
     android:padding="3dp"
     app:cardBackgroundColor="@color/black_200"
-    app:cardCornerRadius="12dp"
+    app:cardCornerRadius="16dp"
     app:cardElevation="2dp"
     app:cardMaxElevation="5dp"
     app:cardPreventCornerOverlap="true"

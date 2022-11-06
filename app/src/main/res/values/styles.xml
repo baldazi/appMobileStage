@@ -29,4 +29,8 @@
         <item name="cornerSizeBottomRight">60%</item>
         <item name="cornerSizeBottomLeft">60%</item>
     </style>
+
+    <style name="bg_placeholder">
+        <item name="android:background">@color/orange</item>
+    </style>
 </resources>

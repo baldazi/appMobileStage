@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import com.facebook.shimmer.ShimmerFrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
@@ -29,6 +29,7 @@ private const val ARG_PARAM2 = "param2"
 private lateinit var annonceAdapter: AnnonceAdapter
 private  lateinit var recyclerView: RecyclerView
 private  lateinit var newAnnonceList: ArrayList<Annonce>
+private lateinit var shimmerFrameLayout:ShimmerFrameLayout
 
 lateinit var title : ArrayList<String>
 
@@ -81,6 +82,8 @@ class HomeFragment : Fragment(), OnAnnonceClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        shimmerFrameLayout = view.findViewById(R.id.shimmer_annonce)
+        shimmerFrameLayout.startShimmer()
         dataInitialize(view)
     }
 
@@ -90,6 +93,7 @@ class HomeFragment : Fragment(), OnAnnonceClickListener {
         val queue: RequestQueue = Volley.newRequestQueue(activity)
         val req = StringRequest(Request.Method.GET, url,
             { response ->
+
                 val data = response.toString()
                 val jsonArray = JSONArray(data)
 
@@ -106,8 +110,12 @@ class HomeFragment : Fragment(), OnAnnonceClickListener {
                     //Log.e("array", jObject.toString())
                 }
 
+                shimmerFrameLayout.stopShimmer()
+                shimmerFrameLayout.visibility = View.GONE
+
                 val layoutManager = LinearLayoutManager(context)
                 recyclerView = view.findViewById(R.id.home_item_list)
+                recyclerView.visibility = View.VISIBLE
                 recyclerView.layoutManager = layoutManager
                 recyclerView.setHasFixedSize(true)
                 annonceAdapter = AnnonceAdapter(newAnnonceList, this)
@@ -122,6 +130,9 @@ class HomeFragment : Fragment(), OnAnnonceClickListener {
         val intent = Intent(activity, AnnonceActivity::class.java)
         intent.putExtra("title", newAnnonceList[position].title)
         intent.putExtra("description", newAnnonceList[position].description)
+        intent.putExtra("date", newAnnonceList[position].initDate)
+        intent.putExtra("duration", newAnnonceList[position].duration.toString())
+        intent.putExtra("location", newAnnonceList[position].location)
         this.startActivity(intent)
 
     }
