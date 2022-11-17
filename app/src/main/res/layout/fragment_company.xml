@@ -26,21 +26,67 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_marginTop="50dp"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/entreprise_nested"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black_300">
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/black_300"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:orientation="vertical">
 
-            <!-- Scrollable content -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/home_item_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:listitem="@layout/entreprise_list"/>
+                tools:listitem="@layout/entreprise_list"
+                android:visibility="gone"
+                />
 
-        </androidx.core.widget.NestedScrollView>
+            <ProgressBar
+                android:id="@+id/entreprise_loading"
+                android:layout_width="match_parent"
+                android:indeterminate="true"
+                android:indeterminateTintMode="src_atop"
+                android:indeterminateTint="@color/orange"
+                android:visibility="gone"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_entreprise"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:animationCache="true"
+        app:shimmer_repeat_mode="restart"
+        app:shimmer_shape="radial">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <include layout="@layout/entreprise_shimer"/>
+            <include layout="@layout/entreprise_shimer"/>
+            <include layout="@layout/entreprise_shimer"/>
+            <include layout="@layout/entreprise_shimer"/>
+            <include layout="@layout/entreprise_shimer"/>
+
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 
 </FrameLayout>

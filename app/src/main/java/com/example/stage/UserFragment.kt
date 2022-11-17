@@ -82,7 +82,7 @@ class UserFragment : Fragment() {
         view.findViewById<TextView>(R.id.us_school).text = sharedPreferences.getString("school", "")
         //view?.findViewById<TextView>(R.id.us_level).text = sharedPreferences.getInt("level", 0).toString()
         view.findViewById<TextView>(R.id.us_born).text = sharedPreferences.getString("born", "")
-        view.findViewById<Button>(R.id.idBtnLogOut)?.setOnClickListener {
+        view.findViewById<Button>(R.id.id_logout_btn)?.setOnClickListener {
 
             // on below line we are creating a variable for
             // editor of shared preferences and initializing it.
@@ -92,7 +92,7 @@ class UserFragment : Fragment() {
             editor.apply()
             val i = Intent(activity, MainActivity::class.java)
             startActivity(i)
-            //finish()
+            activity?.finish()
         }
     }
 }

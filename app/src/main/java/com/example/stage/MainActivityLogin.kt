@@ -1,22 +1,16 @@
 package com.example.stage
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.ActionMode
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.android.volley.Request
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import org.json.JSONArray
+
 
 class MainActivityLogin : AppCompatActivity() {
 
@@ -33,13 +27,13 @@ class MainActivityLogin : AppCompatActivity() {
         val folderFragment = FolderFragment()
         val userFragment = UserFragment()
 
-        setCurrentFragment(homeFragment)
+        setCurrentFragment(HomeFragment())
         // assigning ID of the toolbar to a variable
         /**********************************************************/
         val callback = object : ActionMode.Callback {
 
             override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                menuInflater.inflate(R.menu.contextual_action_bar, menu)
+                menuInflater.inflate(R.menu.top_app_bar, menu)
                 return true
             }
 
@@ -87,8 +81,7 @@ class MainActivityLogin : AppCompatActivity() {
 
             when (it.itemId) {
                 R.id.home -> {
-                    setCurrentFragment(homeFragment)
-                    Log.e("err","resel")
+                    Log.e("home","reselected")
                 }
                 R.id.company -> setCurrentFragment(companyFragment)
                 R.id.folder -> setCurrentFragment(folderFragment)
@@ -97,6 +90,20 @@ class MainActivityLogin : AppCompatActivity() {
             }
             true
         }
+
+    }
+
+    override fun onBackPressed() {
+
+        if(bottomNavigationView.selectedItemId == R.id.home) {
+            AlertDialog.Builder(this)
+                .setMessage("voulez vous quitter l'application?")
+                .setCancelable(false)
+                .setPositiveButton("oui"
+                ) { _, _ -> finish() }
+                .setNegativeButton("non", null)
+                .show()
+        }else bottomNavigationView.selectedItemId = R.id.home
 
     }
 

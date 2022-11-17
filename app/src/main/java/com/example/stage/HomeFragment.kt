@@ -3,12 +3,18 @@ package com.example.stage
 import adapter.AnnonceAdapter
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.FragmentTransaction
 import com.facebook.shimmer.ShimmerFrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,33 +22,35 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.material.appbar.MaterialToolbar
 import data.Annonce
 import listener.OnAnnonceClickListener
 import org.json.JSONArray
-import java.text.FieldPosition
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-private lateinit var annonceAdapter: AnnonceAdapter
-private  lateinit var recyclerView: RecyclerView
-private  lateinit var newAnnonceList: ArrayList<Annonce>
-private lateinit var shimmerFrameLayout:ShimmerFrameLayout
-
-lateinit var title : ArrayList<String>
-
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomeFragment : Fragment(), OnAnnonceClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private val url = "https://obscure-sierra-87499.herokuapp.com/1"
+    private lateinit var annonceAdapter: AnnonceAdapter
+    private  lateinit var recyclerView: RecyclerView
+    private  var newAnnonceList:ArrayList<Annonce> = arrayListOf()
+    private lateinit var shimmerFrameLayout:ShimmerFrameLayout
+    private lateinit var loadingPB:ProgressBar
+    private lateinit var endTv:TextView
+    private lateinit var nestedSV:NestedScrollView
+    private lateinit var topNavigationView : MaterialToolbar
+
+    lateinit var title : ArrayList<String>
+    private var fin = false
+    private var count:Int = 0
+    private val url = "https://obscure-sierra-87499.herokuapp.com/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,15 +69,6 @@ class HomeFragment : Fragment(), OnAnnonceClickListener {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             HomeFragment().apply {
@@ -81,31 +80,64 @@ class HomeFragment : Fragment(), OnAnnonceClickListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        /******************************************************************/
+        topNavigationView = view?.findViewById<MaterialToolbar>(R.id.topAppBar)!!
+        topNavigationView.setOnMenuItemClickListener{
+
+            when (it.itemId) {
+                R.id.search -> {
+                   val intent = Intent(activity, SearchActivity::class.java)
+                    this.startActivity(intent)
+                }
+            }
+            true
+        }
+        /*****************************************************************/
+        Log.e("count", count.toString())
         super.onViewCreated(view, savedInstanceState)
+        //newAnnonceList =  arrayListOf()
         shimmerFrameLayout = view.findViewById(R.id.shimmer_annonce)
         shimmerFrameLayout.startShimmer()
-        dataInitialize(view)
+        loadingPB = view.findViewById(R.id.annonce_loading)
+        endTv = view.findViewById(R.id.annonce_end)
+        nestedSV = view.findViewById(R.id.annonce_nested)
+        nestedSV.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{
+                v:NestedScrollView, _:Int, scrollY:Int, _:Int, _:Int ->
+                if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
+                    loadingPB.visibility = View.VISIBLE
+                    if (!fin) {
+                        count += 5
+                        dataInitialize(view, count)
+                    }else{
+                        loadingPB.visibility = View.GONE
+                        endTv.visibility = View.VISIBLE
+                    }
+                }
+        })
+
+        dataInitialize(view, count)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun dataInitialize(view: View){
-        newAnnonceList =  arrayListOf()
+    @SuppressLint("NotifyDataSetChanged", "NewApi")
+    private fun dataInitialize(view: View, offset:Int){
         val queue: RequestQueue = Volley.newRequestQueue(activity)
-        val req = StringRequest(Request.Method.GET, url,
+        val req = StringRequest(Request.Method.GET, "$url$offset",
             { response ->
 
                 val data = response.toString()
                 val jsonArray = JSONArray(data)
-
-                for (i in 0 until (jsonArray.length() - 1)){
+                fin = jsonArray==null||jsonArray.length()==0
+                for (i in 0 until (jsonArray.length())){
                     val jObject = jsonArray.getJSONObject(i)
                     val itemTitle = jObject.getString("title")
                     val itemLocation = jObject.getString("location")
                     val itemCompany = jObject.getJSONObject("company").getString("name").toString()
+                    val itemCompanyEmail = jObject.getJSONObject("company").getString("email").toString()
                     val itemDescription = jObject.getString("description")
                     val itemDuration = jObject.getInt("duration")
-                    val itemDate = jObject.getString("start_date")
-                    val annonce = Annonce(itemTitle, itemLocation, itemCompany, itemDescription, itemDuration, itemDate)
+                    val itemDate = LocalDate.parse(jObject.getString("start_date").substring(0,10))
+                    val itemDateString  = itemDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString()
+                    val annonce = Annonce(itemTitle, itemLocation, itemCompany, itemDescription, itemDuration, itemDateString,itemCompanyEmail)
                     newAnnonceList.add(annonce)
                     //Log.e("array", jObject.toString())
                 }
@@ -133,6 +165,7 @@ class HomeFragment : Fragment(), OnAnnonceClickListener {
         intent.putExtra("date", newAnnonceList[position].initDate)
         intent.putExtra("duration", newAnnonceList[position].duration.toString())
         intent.putExtra("location", newAnnonceList[position].location)
+        intent.putExtra("email", newAnnonceList[position].email)
         this.startActivity(intent)
 
     }

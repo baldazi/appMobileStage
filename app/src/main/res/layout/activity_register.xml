@@ -87,9 +87,7 @@
             android:textColorHint="@color/gray"
             android:textCursorDrawable="@drawable/caret" />
 
-        <!--on below line we are creating edit text for password-->
 
-        <!--on below line we are creating a button for login-->
         <EditText
             android:id="@+id/id_password"
             android:layout_width="match_parent"

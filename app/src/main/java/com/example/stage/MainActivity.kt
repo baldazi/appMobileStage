@@ -25,6 +25,7 @@ import data.User
 import org.json.JSONException
 import org.json.JSONObject
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class MainActivity : AppCompatActivity() {
     lateinit var emailEdt: EditText
@@ -77,9 +78,9 @@ class MainActivity : AppCompatActivity() {
         val request: StringRequest =
             @RequiresApi(Build.VERSION_CODES.O)
             object : StringRequest(Request.Method.POST, url, Response.Listener { response ->
-                    // on below line we are displaying a toast message as data updated.
+
                     Log.e("TAG", "response: $response")
-                    Toast.makeText(this@MainActivity, "connexion..", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, "connecté", Toast.LENGTH_SHORT).show()
                     try {
 
                         val jsonObject = JSONObject(response)
@@ -103,7 +104,8 @@ class MainActivity : AppCompatActivity() {
                             editor.putInt("level", user.level)
                             editor.putString("school", user.school)
                             val bdate = LocalDate.parse(user.born.substring(0,10))
-                            editor.putString("born", bdate.dayOfMonth.toString()+"/"+bdate.monthValue+"/"+bdate.year)
+                            val bdateFormated = bdate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                            editor.putString("born", bdateFormated.toString())
                             //TODO
                             editor.apply()
                             //TODO
@@ -114,8 +116,8 @@ class MainActivity : AppCompatActivity() {
                     } catch (e: JSONException) {
                         e.printStackTrace()
                     }
-            }, Response.ErrorListener { error -> // displaying toast message on response failure.
-                Log.e("tag", "error is " + error.toString())
+            }, Response.ErrorListener { error ->
+                Log.e("tag", "erreur : " + error.toString())
                 Toast.makeText(this@MainActivity, "paramettres invalides", Toast.LENGTH_SHORT).show()
             }) {
                 override fun getBodyContentType(): String {

@@ -26,6 +26,7 @@ class AnnonceAdapter(private val newAnnonce: ArrayList<Annonce>, private val onA
         holder.location.text = currentItem.location
         holder.duration.text = currentItem.duration.toString() + " mois"
         holder.company.text = currentItem.company
+        holder.initDate.text = currentItem.initDate
 
         holder.itemView.setOnClickListener{
             //Log.e("err","$position")
@@ -44,5 +45,6 @@ class AnnonceAdapter(private val newAnnonce: ArrayList<Annonce>, private val onA
         val location : TextView = itemView.findViewById(R.id.annonce_location)
         val company : TextView = itemView.findViewById(R.id.annonce_company)
         val duration : TextView = itemView.findViewById(R.id.annonce_duration)
+        val initDate : TextView = itemView.findViewById(R.id.annonce_start)
     }
 }

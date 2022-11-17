@@ -39,11 +39,11 @@
                 android:layout_marginTop="45dp"
                 >
                 <View
-                    android:layout_width="20dp"
+                    android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="30dp"
                     android:backgroundTint="@color/orange"
-                    android:background="@drawable/ic_building_regular"
+                    android:background="@drawable/ic_building_office"
                     />
                 <TextView
                     android:id="@+id/annonce_company"
@@ -54,8 +54,7 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
                     android:textColor="@color/white_100"
-                    android:text="Entreprise"
-                    android:textStyle="normal" />
+                    android:text="Entreprise"/>
 
             </LinearLayout>
 
@@ -64,7 +63,7 @@
         <View
             android:id="@+id/line_1"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.5dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginHorizontal="5dp"

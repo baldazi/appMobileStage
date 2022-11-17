@@ -22,7 +22,8 @@ class EntrepriseAdapter(private val newEnt: ArrayList<Entreprise>) :
 
         val currentItem = newEnt[position]
         holder.name.text = currentItem.name
-        //holder.location.text = currentItem.location
+        holder.seat.text = currentItem.seat
+        holder.sect.text = currentItem.sect
     }
 
     override fun getItemCount(): Int {
@@ -31,7 +32,8 @@ class EntrepriseAdapter(private val newEnt: ArrayList<Entreprise>) :
 
     class EntrepriseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     {
-        val name : TextView = itemView.findViewById(R.id.ent_name)
-        //val location : TextView = itemView.findViewById(R.id.ent_location)
+        val name : TextView = itemView.findViewById(R.id.company_name)
+        val seat : TextView = itemView.findViewById(R.id.company_seat)
+        val sect : TextView = itemView.findViewById(R.id.company_sector)
     }
 }

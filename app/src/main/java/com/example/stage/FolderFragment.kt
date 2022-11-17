@@ -1,10 +1,12 @@
 package com.example.stage
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.appbar.MaterialToolbar
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,5 +57,22 @@ class FolderFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        /******************************************************************/
+        var topNavigationView = view?.findViewById<MaterialToolbar>(R.id.topAppBar)!!
+        topNavigationView.setOnMenuItemClickListener{
+
+            when (it.itemId) {
+                R.id.search -> {
+                    val intent = Intent(activity, SearchActivity::class.java)
+                    this.startActivity(intent)
+                }
+            }
+            true
+        }
+        /*****************************************************************/
     }
 }

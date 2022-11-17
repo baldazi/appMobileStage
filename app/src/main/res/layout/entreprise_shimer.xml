@@ -27,8 +27,8 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-            android:text="Nom de l'entreprise"
         android:textSize="25sp"
+        android:background="@color/orange"
         android:textColor="@color/white_100"
         android:textStyle="bold" />
 
@@ -37,7 +37,7 @@
     <View
         android:id="@+id/line_1"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="2dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginHorizontal="5dp"
@@ -55,26 +55,26 @@
             android:layout_height="25dp"
             android:layout_marginStart="15dp"
             android:backgroundTint="@color/orange"
-            android:background="@drawable/ic_buildings_office"
+            android:background="@color/orange"
             />
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:textColor="@color/white_100"
-            android:text="Secteur d'activité : "
+            android:background="@color/orange"
             android:textStyle="normal" />
         <TextView
             android:id="@+id/company_sector"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:textColor="@color/white_100"
-            android:text="14/01/2023"
+            android:background="@color/orange"
             android:textStyle="normal" />
 
     </LinearLayout>
@@ -90,28 +90,28 @@
             android:layout_height="25dp"
             android:layout_marginStart="15dp"
             android:backgroundTint="@color/orange"
-            android:background="@drawable/ic_location_on"
+            android:background="@color/orange"
             />
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:textColor="@color/white_100"
-            android:text="Siège social : "
+            android:background="@color/orange"
             android:textStyle="normal" />
 
         <TextView
             android:id="@+id/company_seat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:textColor="@color/white_100"
-            android:text="3 mois"
+            android:background="@color/orange"
             android:textStyle="normal" />
 
     </LinearLayout>
